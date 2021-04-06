@@ -27,30 +27,40 @@ export default class HousesController {
       console.error(error);
     }
   }
-  createHouse() {
-    window.event.preventDefault()
-    const form = window.event.target
-    let newHouse = {
+  async createHouse() {
+    try {
+      window.event.preventDefault()
+      const form = window.event.target
+      let newHouse = {
+        //@ts-ignore
+        bathrooms: form.bathrooms.value,
+        //@ts-ignore
+        bedrooms: form.bedrooms.value,
+        //@ts-ignore
+        imgUrl: form.imgUrl.value,
+        //@ts-ignore
+        levels: form.levels.value,
+        //@ts-ignore
+        year: form.year.value,
+        //@ts-ignore
+        description: form.description.value,
+        //@ts-ignore
+        price: Number(form.price.value),
+      }
+      await housesService.createHouse(newHouse)
       //@ts-ignore
-      bedrooms: form.bedrooms.value,
-      //@ts-ignore
-      bathrooms: form.bathrooms.value,
-      //@ts-ignore
-      sqFeet: form.sqFeet.value,
-      //@ts-ignore
-      address: form.address.value,
-      //@ts-ignore
-      price: Number(form.price.value),
-      //@ts-ignore
-      imgUrl: form.imgUrl.value
+      form.reset()
+      $('#new-house-form').modal('hide')
+    } catch (error) {
+      console.error(error)
     }
-    housesService.createHouse(newHouse)
-    //@ts-ignore
-    form.reset()
-    $('#new-house-form').modal('hide')
   }
   deleteHouse(id) {
-    housesService.deleteHouse(id)
+    try {
+      housesService.deleteHouse(id)
+    } catch (error) {
+      console.error(error)
+    }
   }
   bid(id) {
     housesService.bid(id)

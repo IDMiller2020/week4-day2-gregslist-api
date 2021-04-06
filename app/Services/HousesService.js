@@ -8,16 +8,22 @@ class HousesService {
     console.log(res.data)
     ProxyState.houses = res.data.map(h => new House(h))
   }
-  createHouse(newHouse) {
-    let house = new House(newHouse.bedrooms, newHouse.bathrooms, newHouse.sqFeet, newHouse.address, newHouse.price, newHouse.imgUrl)
+  async createHouse(newHouse) {
+    console.log(newHouse);
+    let res = await api.post('houses', newHouse)
+    console.log(res.data)
+    res.data.id = res.data._id
+    let house = new House(res.data)
     ProxyState.houses = [...ProxyState.houses, house]
   }
-  bid(id) {
+  async bid(id) {
     let house = ProxyState.houses.find(house => house.id === id)
     house.price += 1000
+    await api.put('houses/' + id, { price: house.price })
     ProxyState.houses = ProxyState.houses
   }
-  deleteHouse(id) {
+  async deleteHouse(id) {
+    await api.delete('houses/' + id)
     ProxyState.houses = ProxyState.houses.filter(house => house.id !== id)
   }
 }

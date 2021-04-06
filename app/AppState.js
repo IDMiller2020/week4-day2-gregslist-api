@@ -13,9 +13,7 @@ class AppState extends EventEmitter {
   // ]
   cars =[]
 
-  houses = [
-    new House('4', '2', 1800, '4321 State Street', 350000, 'https://static01.nyt.com/images/2019/06/25/realestate/25domestic-zeff/a1c1a1a36c9e4ff8adcb958c4276f28d-jumbo.jpg')
-  ]
+  houses = []
 }
 
 // NOTE Oh oh.. its magic! Ya know!
