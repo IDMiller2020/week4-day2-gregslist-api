@@ -9,7 +9,6 @@ function _draw() {
   let template = ''
   // if a collection itterate over collection to generate template for each object
   cars.forEach(car => {
-    console.log(car)
     template += car.Template
   })
   // render to page
@@ -24,17 +23,30 @@ export default class CarsController {
     // 2nd argument: name of the function to run when 1st argument property changes
     ProxyState.on('cars', _draw);
 
+    // Since we are now going to get our cars from the bcw-sandbox api, we don't need a manual draw on page load.  We need to get cars from the api instead. _draw() is replaced with async getCars().
     // manually run draw the on page load
-    _draw()
+    //_draw()
+
+    this.getCars()
   }
+    
+    // NOTE async needs to be setup in CarsService - this should be setup and tested before setting up CarsController.js
 
+    async getCars() {
+      try {
+        await carsService.getCars()
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  
 
-  createCar() {
+  async createCar() {
+    try {
     // if this method is triggered by an event (submit event) prevent the default action of reloding the page
     window.event.preventDefault()
     // grab the element from html that triggered this event
     const form = window.event.target
-    debugger
     let newCar = {
       // @ts-ignore
       make: form.make.value,
@@ -49,17 +61,25 @@ export default class CarsController {
       // @ts-ignore
       imgUrl: form.imgUrl.value
     }
-    carsService.createCar(newCar)
+    await carsService.createCar(newCar)
 
     // @ts-ignore
     form.reset()
 
     // get the modal and close (using jQuery's "$" selector) 
     $('#new-car-form').modal('hide')
+  } catch (error) {
+    console.error(error)
+  }
   }
 
   deleteCar(id) {
-    carsService.deleteCar(id)
+    try{
+      carsService.deleteCar(id)
+
+    } catch (error){
+      console.error(error)
+    }
   }
 
   bid(id) {

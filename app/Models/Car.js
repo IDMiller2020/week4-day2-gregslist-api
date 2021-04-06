@@ -1,15 +1,16 @@
-import { generateId } from "../Utils/GenerateId.js"
-
 export default class Car {
-  constructor(make, model, year, price, description, imgUrl) {
-    this.id = generateId()
+  constructor({description, id, imgUrl, make, model, price, year}) {
+    // this.id = generateId()
+    this.description = description
+    this.id = id
+    this.imgUrl = imgUrl
     this.make = make
     this.model = model
-    this.year = year
     this.price = price
-    this.description = description
-    this.imgUrl = imgUrl
+    this.year = year
   }
+
+
 
   // NOTE 'get' signifies a FAKE property
   // GETters MUST return a value
