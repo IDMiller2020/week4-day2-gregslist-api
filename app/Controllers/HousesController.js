@@ -15,7 +15,17 @@ function _draw() {
 export default class HousesController {
   constructor() {
     ProxyState.on('houses', _draw)
-    _draw()
+// Don't need initial draw on page load anymore.  Need to get houses from api instead.
+//    _draw()
+
+    this.getHouses()
+  }
+  async getHouses() {
+    try {
+      await housesService.getHouses()
+    } catch (error) {
+      console.error(error);
+    }
   }
   createHouse() {
     window.event.preventDefault()
