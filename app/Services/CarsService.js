@@ -13,12 +13,10 @@ class CarsService {
   async getCars() {
     let res = await api.get('cars')
     // NOTE Good idea to always test what you are getting from the api using console.log
-    console.log(res.data);
     ProxyState.cars = res.data.map(c => new Car(c))
   }
   async createCar(newCar) {
     let res = await api.post('cars', newCar)
-    console.log(res.data)
     res.data.id = res.data._id
     let car = new Car(res.data)
     ProxyState.cars = [...ProxyState.cars, car]
